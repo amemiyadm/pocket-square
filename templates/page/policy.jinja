@@ -1,43 +1,23 @@
-{% from 'layout/_consts.jinja' import google_form_url, x_account_url %}
-{% from 'layout/_macros.jinja' import card, clause, link %}
 {% extends 'layout/base.jinja' %}
 
 {% block content %}
-    {% call card('ポリシー', 'policy') %}
-        <div class="flex flex-col gap-5">
-            {% call clause('インデックスポリシー') %}
-                <li>当サイトでは、掲載記事に対する検索機能を提供するにあたり、記事内容のインデックス化を行います。</li>
-                <li>検索機能は、ユーザーが目的の情報を探すための補助ツールとしての役割を持ち、元記事の内容や詳細な情報の代替を目的とするものではありません。</li>
-                <li>
-                    検索機能の提供にあたっては、以下のルールを遵守します。
-                    <ul class="ml-5 list-disc list-inside">
-                        <li>元記事の出典（リンク）を明記します。</li>
-                        <li>一般に公開されている情報のみを対象とします。</li>
-                        <li>有償で提供されている記事に対しては行いません。ただし、当初は無償公開されていた場合や、無償公開部分のみの掲載等の例外を除きます。</li>
-                    </ul>
-                </li>
-            {% endcall %}
-            {% call clause('プライバシーポリシー') %}
-                <li>
-                    当サイトでは、アクセス解析ツール「Googleアナリティクス」を使用しています。
-                    <ul class="ml-5 list-disc list-inside">
-                        <li>Cookieを使用して匿名でデータを収集しており、個人を特定するものではありません。</li>
-                        <li>ブラウザの設定でCookieを無効にすることで収集を拒否できます。</li>
-                        <li>詳細は{{ link('https://policies.google.com/technologies/partner-sites?hl=ja', 'Googleポリシーと規約', True) }}をご覧ください。</li>
-                    </ul>
-                </li>
-                <li>
-                    当サイトでは、「Googleアドセンス」を使用して広告を配信しています。
-                    <ul class="ml-5 list-disc list-inside">
-                        <li>ユーザーの興味に応じた広告（パーソナライズ広告）を表示するため、Cookieを使用することがあります。</li>
-                        <li>{{ link('https://www.google.com', '広告設定', True) }}でパーソナライズ広告を無効にできます。また、{{ link('https://www.aboutads.info', 'www.aboutads.info', True) }}にアクセスすることで、第三者配信事業者のCookieを無効にできます。</li>
-                    </ul>
-                </li>
-            {% endcall %}
-            {% call clause('お問い合わせ') %}
-                <li>{{ link(google_form_url, 'お問い合わせフォーム', True) }}</li>
-                <li>{{ link(x_account_url, '開発者Xアカウント', True) }}</li>
-            {% endcall %}
+    <article>
+        <div>
+            <h1>ポリシー</h1>
         </div>
-    {% endcall %}
+        <hr>
+        <div class="gap-2 grid">
+            <h2>インデックスポリシー</h2>
+            <div>
+                ・当サイトでは、掲載記事に対する検索機能を提供するにあたり、記事内容のインデックス化を行います。<br>
+                ・検索機能は、ユーザーが目的の情報を探すための補助ツールとしての役割を持ち、元記事の内容や詳細な情報の代替を目的とするものではありません。<br>
+                ・検索機能の提供にあたっては、一般に無償で公開されている情報のみを対象とし、出典（リンク）を明記します。ただし、後に有償に変更された場合や、有償記事の無償部分などの例外を除きます。
+            </div>
+            <h2>プライバシーポリシー</h2>
+            <div>
+                ・当サイトでは、アクセス解析ツール「Googleアナリティクス」を使用しています。Cookieを使用して匿名でデータを収集しており、個人を特定するものではありません。ブラウザの設定でCookieを無効にすることで収集を拒否できます。詳細は<a href="https://policies.google.com/technologies/partner-sites?hl=ja">Googleポリシーと規約</a>をご覧ください。<br>
+                ・当サイトでは、「Googleアドセンス」を使用して広告を配信しています。ユーザーの興味に応じた広告（パーソナライズ広告）を表示するため、Cookieを使用することがあります。<a href="https://www.google.com">広告設定</a>でパーソナライズ広告を無効にできます。また、<a href="https://www.aboutads.info">www.aboutads.info</a>にアクセスすることで、第三者配信事業者のCookieを無効にできます。
+            </div>
+        </div>
+    </article>
 {% endblock %}

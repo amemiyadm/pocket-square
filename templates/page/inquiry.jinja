@@ -1,0 +1,15 @@
+{% from 'layout/_consts.jinja' import google_form_url, x_account_url %}
+{% extends 'layout/base.jinja' %}
+
+{% block content %}
+    <article>
+        <div>
+            <h1>お問い合わせ</h1>
+        </div>
+        <hr>
+        <div class="gap-2 grid">
+            <a href="{{ google_form_url }}">お問い合わせフォーム</a>
+            <a href="{{ x_account_url }}">開発者Xアカウント</a>
+        </div>
+    </article>
+{% endblock %}

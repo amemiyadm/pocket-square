@@ -99,6 +99,11 @@ h1 {
     padding-left: 1rem
 }
 
+h2 {
+    font-size: 1rem;
+    margin: 0;
+}
+
 header {
     background-color: var(--oc-white);
     padding: 1.25rem;
@@ -128,6 +133,7 @@ input[type="checkbox"] {
 
 input[type="number"],
 input[type="search"],
+input[type="url"],
 textarea {
     border: none;
     box-sizing: border-box;

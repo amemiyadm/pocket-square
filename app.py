@@ -1,6 +1,6 @@
-from flask import Flask, jsonify, make_response, render_template, request
+from flask import abort, Flask, jsonify, make_response, render_template, request
 from database.connection import engine
-from utils.consts import ALL_SORTS, ALL_RULES
+from utils.consts import ALL_SORTS, ALL_RULES, SECRET_TOKEN
 from utils.forms import SearchForm
 from utils.helpers import get_all_seasons, get_all_trends, get_read_later_ids, get_usage_ranking, static_file
 from utils.page.search import get_all_regulations, get_all_tags, search_articles
@@ -67,6 +67,11 @@ def policy():
     return render_template('page/policy.jinja', title='ポリシー')
 
 
+@app.route('/inquiry')
+def inquiry():
+    return render_template('page/inquiry.jinja', title='お問い合わせ')
+
+
 @app.route('/toggle-read-later', methods=['POST'])
 def toggle_read_later():
     article_id = int(request.form.get('article_id'))
@@ -90,7 +95,10 @@ def toggle_read_later():
 
 
 @app.route('/insert', methods=['GET', 'POST'])
-def articles_insert():
+def insert():    
+    if request.args.get('token') != SECRET_TOKEN:
+        abort(404)
+
     params = request.args.to_dict()
     if request.method == 'POST':
         form = request.form

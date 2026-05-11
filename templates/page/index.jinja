@@ -17,8 +17,8 @@
         {% for rule in all_rules %}
             <a href="{{ url_for(
                 'search', rule=rule, sort='順位順',
-                season_start=latest_season.sort_order,
-                season_end=latest_season.sort_order
+                season_start=latest_season.name,
+                season_end=latest_season.name
             ) }}">シーズン{{ latest_season.name ~ rule }}上位記事</a>
         {% endfor %}
     {% endcall %}

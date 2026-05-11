@@ -1,5 +1,5 @@
 {% from 'layout/_consts.jinja' import storage_url, old_storage_url %}
-{% from 'layout/_macros.jinja' import link, pagination, tw_form_control %}
+{% from 'layout/_macros.jinja' import pagination %}
 
 {% macro pokemon_fields(i, label) %}
     <div class="gap-2 grid grid-cols-2{{ ' pt-4' if i != 1 }}">
@@ -100,7 +100,7 @@
                 <div>
                     該当する結果が見つかりませんでした。<br>
                     ・検索条件を見直してください。<br>
-                    ・ご不明点やご要望、不具合のご報告などは{{ link(google_form_url, 'お問い合わせフォーム', True) }}から受け付けております。
+                    ・ご不明点やご要望、不具合のご報告などは<a href="{{ google_form_url }}">お問い合わせフォーム</a>から受け付けております。
                 </div>
             </article>
         {% else %}

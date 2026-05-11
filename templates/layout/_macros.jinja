@@ -1,28 +1,3 @@
-{% macro card(title, icon) %}
-    <div class="bg-white border border-gray-300 rounded-lg">
-        <h1 class="flex items-center gap-2 p-5">
-            <span class="material-symbols-outlined">{{ icon }}</span>
-            <span>{{ title }}</span>
-        </h1>
-        <div class="border-t border-gray-200 p-5">
-            {{ caller() }}
-        </div>
-    </div>
-{% endmacro %}
-
-{% macro clause(title) %}
-    <div class="flex flex-col gap-2">
-        <h2>{{ title }}</h2>
-        <ul class="list-disc list-inside">
-            {{ caller() }}
-        </ul>
-    </div>
-{% endmacro %}
-
-{% macro link(url, text, external=False) %}
-    <a href="{{ url }}" class="text-blue-500 underline" target="_blank" rel="noopener noreferrer">{{ text }}</a>
-{% endmacro %}
-
 {% macro pagination(paginations, params, total_pages) %}
     <div class="pagination">
         <button data-page="{{ params.page|int - 1 }}"{{ ' disabled' if params.page|int == 1 }}><</button>

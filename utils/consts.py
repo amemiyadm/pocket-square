@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
 ALL_RANGES = ('のみ', '以上', '以下')
 ALL_RULES = ('シングル', 'ダブル')
 ALL_SORTS = ('新着順', '順位順')
@@ -17,3 +22,4 @@ NATURE_TABLE = {
         'すばやさ': ['ゆうかん', 'のんき', 'れいせい', 'なまいき']
     }
 }
+SECRET_TOKEN = os.environ.get('SECRET_TOKEN')

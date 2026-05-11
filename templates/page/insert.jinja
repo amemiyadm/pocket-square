@@ -1,26 +1,3 @@
-{% macro form_control(label, name, type, required=False) %}
-    <label class="w-100">
-        <span>{{ label }}</span>
-        {% if type == 'textarea' %}
-            <textarea name="{{ name }}" class="form-control"{{ ' required' if required }}></textarea>
-        {% else %}
-            <input type="{{ type }}" name="{{ name }}" class="form-control"{{ ' required' if required }}>
-        {% endif %}
-    </label>
-{% endmacro %}
-
-{% macro form_select(label, name, datas, required=False) %}
-    <label class="w-100">
-        <span>{{ label }}</span>
-        <select name="{{ name }}" class="form-select"{{ ' required' if required }}>
-            <option value=""></option>
-            {% for data in datas %}
-                <option value="{{ data }}">{{ data }}</option>
-            {% endfor %}
-        </select>
-    </label>
-{% endmacro %}
-
 {% extends 'layout/base.jinja' %}
 {% block js %}
     <script src="{{ static_file('js/insert.js') }}" type="module"></script>
@@ -39,10 +16,18 @@
                 {% endfor %}
             </div>
             <div class="flex flex-wrap gap-2">
-                {% for tag in all_tags %}
+                {% for tag in all_tags if tag.is_category %}
                     <div class="gap-2 flex items-center">
-                        <input id="tag{{ loop.index }}" name="tags" type="checkbox" value="{{ tag.name }}">
-                        <label for="tag{{ loop.index }}">{{ tag.name }}</label>
+                        <input id="tag-radio{{ loop.index }}" name="tags" type="radio" value="{{ tag.name }}">
+                        <label for="tag-radio{{ loop.index }}">{{ tag.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="flex flex-wrap gap-2">
+                {% for tag in all_tags if not tag.is_category %}
+                    <div class="gap-2 flex items-center">
+                        <input id="tag-check{{ loop.index }}" name="tags" type="checkbox" value="{{ tag.name }}">
+                        <label for="tag-check{{ loop.index }}">{{ tag.name }}</label>
                     </div>
                 {% endfor %}
             </div>

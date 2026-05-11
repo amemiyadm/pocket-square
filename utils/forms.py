@@ -51,7 +51,7 @@ class SearchForm:
         self.regulation_start = SelectField('regulation_start', 'レギュ開始', params, regulation_options)
         self.regulation_end = SelectField('regulation_end', 'レギュ終了', params, regulation_options)
         self.pokemon_slots = HiddenField('pokemon_slots', '', params, {'id': 'pokemon-slots'})
-        self.url = SearchField('url', 'URL', params)
+        self.url = UrlField('url', 'URL', params)
         self.title = TextareaField('title', 'タイトル', params)
         self.text = TextareaField('text', 'テキスト', params)
         self.trainer_name = SearchField('trainer_name', 'トレーナー名', params)
@@ -222,3 +222,13 @@ class TextareaField(Field):
 class HiddenField(Field):
     def render(self):
         return f'<input name="{self.name}" type="hidden" value="{self.value}"{self.render_attrs()}>'
+    
+
+class UrlField(Field):
+    def render(self):
+        return f'''
+            <fieldset>
+                <legend>{self.label}</legend>
+                <input name="{self.name}" type="url" value="{self.value}"{self.render_attrs()}>
+            </fieldset>
+        '''
