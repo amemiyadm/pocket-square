@@ -1,0 +1,44 @@
+{% macro card(title) %}
+    <article>
+        <div>
+            <h1>{{ title }}</h1>
+        </div>
+        <hr>
+        <div class="flex flex-wrap gap-4">
+            {{ caller() }}
+        </div>
+    </article>
+{% endmacro %}
+
+{% extends 'layout/base.jinja' %}
+
+{% block content %}
+    {% call card('最新記事まとめ') %}
+        {% for rule in all_rules %}
+            <a href="{{ url_for(
+                'search', rule=rule, sort='順位順',
+                season_start=latest_season.sort_order,
+                season_end=latest_season.sort_order
+            ) }}">シーズン{{ latest_season.name ~ rule }}上位記事</a>
+        {% endfor %}
+    {% endcall %}
+
+    {% call card('注目の検索ワード') %}
+        {% for trend in all_trends %}
+            <a href="{{ url_for('search', keyword=trend.name) }}">{{ trend.name }}</a>
+        {% endfor %}
+    {% endcall %}
+
+    {% for rule in all_rules %}
+        {% call card(rule ~ '使用率上位') %}
+            {% for pokemon in usage_ranking[rule] %}
+                <a href="{{ url_for('search', pokemon1=pokemon.name) }}">
+                    <img alt=""
+                        height="40"
+                        src="{{ storage_url }}/pokemon/{{ pokemon.name }}.png">
+                    {{ pokemon.name }}
+                </a>
+            {% endfor %}
+        {% endcall %}
+    {% endfor %}
+{% endblock %}

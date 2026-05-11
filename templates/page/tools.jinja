@@ -1,0 +1,11 @@
+{% from 'layout/_macros.jinja' import card %}
+
+{% extends 'layout/base.jinja' %}
+
+{% block content %}
+    {% call card('ツールなど', 'construction') %}
+        <div class="flex flex-col gap-5">
+            準備中です。
+        </div>
+    {% endcall %}
+{% endblock %}

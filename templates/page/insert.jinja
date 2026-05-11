@@ -1,0 +1,60 @@
+{% macro form_control(label, name, type, required=False) %}
+    <label class="w-100">
+        <span>{{ label }}</span>
+        {% if type == 'textarea' %}
+            <textarea name="{{ name }}" class="form-control"{{ ' required' if required }}></textarea>
+        {% else %}
+            <input type="{{ type }}" name="{{ name }}" class="form-control"{{ ' required' if required }}>
+        {% endif %}
+    </label>
+{% endmacro %}
+
+{% macro form_select(label, name, datas, required=False) %}
+    <label class="w-100">
+        <span>{{ label }}</span>
+        <select name="{{ name }}" class="form-select"{{ ' required' if required }}>
+            <option value=""></option>
+            {% for data in datas %}
+                <option value="{{ data }}">{{ data }}</option>
+            {% endfor %}
+        </select>
+    </label>
+{% endmacro %}
+
+{% extends 'layout/base.jinja' %}
+{% block js %}
+    <script src="{{ static_file('js/insert.js') }}" type="module"></script>
+{% endblock %}
+
+{% block content %}
+    <article>
+        <div>
+            <h1>記事追加</h1>
+        </div>
+        <hr>
+        <form autocomplete="off" class="gap-4 grid" method="POST">
+            <div class="gap-2 grid grid-cols-2">
+                {% for field in form.admin_fields1() %}
+                    {{ field.render() }}
+                {% endfor %}
+            </div>
+            <div class="flex flex-wrap gap-2">
+                {% for tag in all_tags %}
+                    <div class="gap-2 flex items-center">
+                        <input id="tag{{ loop.index }}" name="tags" type="checkbox" value="{{ tag.name }}">
+                        <label for="tag{{ loop.index }}">{{ tag.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            {% for i in range(1, 7) %}
+                <div class="gap-2 grid grid-cols-2">
+                    <b class="col-span-2">ポケモン{{ i }}</b>
+                    {% for field in form.admin_fields2(i) %}
+                        {{ field.render() }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit">追加</button>
+        </form>
+    </article>
+{% endblock %}

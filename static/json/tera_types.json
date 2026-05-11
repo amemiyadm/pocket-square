@@ -1,0 +1,135 @@
+{
+    "image": {
+        "path": "https://storage.googleapis.com/pocket-square/tera-type/",
+        "extension": ".png",
+        "size": [
+            26,
+            26
+        ],
+        "style": {
+            "padding": "5px 0"
+        }
+    },
+    "list": [
+        {
+            "label": "あく",
+            "keywords": [
+                "あく"
+            ]
+        },
+        {
+            "label": "いわ",
+            "keywords": [
+                "いわ"
+            ]
+        },
+        {
+            "label": "かくとう",
+            "keywords": [
+                "かくとう"
+            ]
+        },
+        {
+            "label": "くさ",
+            "keywords": [
+                "くさ"
+            ]
+        },
+        {
+            "label": "こおり",
+            "keywords": [
+                "こおり"
+            ]
+        },
+        {
+            "label": "じめん",
+            "keywords": [
+                "じめん"
+            ]
+        },
+        {
+            "label": "でんき",
+            "keywords": [
+                "でんき"
+            ]
+        },
+        {
+            "label": "どく",
+            "keywords": [
+                "どく"
+            ]
+        },
+        {
+            "label": "はがね",
+            "keywords": [
+                "はがね"
+            ]
+        },
+        {
+            "label": "ひこう",
+            "keywords": [
+                "ひこう"
+            ]
+        },
+        {
+            "label": "ほのお",
+            "keywords": [
+                "ほのお"
+            ]
+        },
+        {
+            "label": "みず",
+            "keywords": [
+                "みず"
+            ]
+        },
+        {
+            "label": "むし",
+            "keywords": [
+                "むし"
+            ]
+        },
+        {
+            "label": "エスパー",
+            "keywords": [
+                "えすぱー",
+                "エスパー"
+            ]
+        },
+        {
+            "label": "ゴースト",
+            "keywords": [
+                "ゴースト",
+                "ごーすと"
+            ]
+        },
+        {
+            "label": "ステラ",
+            "keywords": [
+                "ステラ",
+                "すてら"
+            ]
+        },
+        {
+            "label": "ドラゴン",
+            "keywords": [
+                "ドラゴン",
+                "どらごん"
+            ]
+        },
+        {
+            "label": "ノーマル",
+            "keywords": [
+                "ノーマル",
+                "のーまる"
+            ]
+        },
+        {
+            "label": "フェアリー",
+            "keywords": [
+                "フェアリー",
+                "ふぇありー"
+            ]
+        }
+    ]
+}

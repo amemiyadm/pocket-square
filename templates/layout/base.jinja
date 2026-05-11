@@ -1,0 +1,46 @@
+{% from 'layout/_consts.jinja' import storage_url %}
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ぽけっとスクエア</title>
+    <link rel="icon" href="{{ storage_url }}/common/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-color@1.9.1/open-color.min.css">
+    <link rel="stylesheet" href="{{ static_file('css/abyss.css') }}">
+    <link rel="stylesheet" href="{{ static_file('css/cornet.css') }}">
+    <link rel="stylesheet" href="{{ static_file('css/iroha.css') }}">
+    <link rel="stylesheet" href="{{ static_file('css/style.css') }}">
+    {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('index')  }}">
+                <img alt="ぽけっとスクエア" height="32" src="{{ storage_url }}/common/site-logo.png">
+            </a>
+            <a href="{{ url_for('search') }}">検索</a>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <nav>
+            <a href="{{ url_for('tools') }}">ツール</a>
+            <a href="{{ url_for('terms') }}">利用規約</a>
+            <a href="{{ url_for('policy') }}">ポリシー</a>
+            <a href="">お問い合わせ</a>
+        </nav>
+    </footer>
+</body>
+
+</html>

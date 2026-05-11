@@ -1,0 +1,13 @@
+.iroha-panel {
+    overflow: hidden;
+    transition: max-height .4s ease-in-out;
+    max-height: 0;
+}
+
+.iroha-panel[data-iroha-open="true"] {
+    max-height: none;
+}
+
+[data-iroha-rotate="true"] {
+    transform: rotate(180deg);
+}

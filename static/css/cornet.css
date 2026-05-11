@@ -1,0 +1,46 @@
+:root {
+    --z-index-cornet: 1000;
+}
+
+.cornet-show-area {
+    position: fixed;
+    bottom: 0;
+    left: 8px;
+    z-index: var(--z-index-cornet);
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.cornet-motion {
+    max-height: 0;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height .4s ease, opacity .4s ease;
+    pointer-events: auto;
+}
+
+.cornet-spacer {
+    padding-bottom: 8px;
+}
+
+.cornet-surface {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    color: white;
+    background: linear-gradient(to right, #333, #555);
+    border-radius: 4px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.cornet-close-btn {
+    color: white;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}

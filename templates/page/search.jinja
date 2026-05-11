@@ -1,0 +1,158 @@
+{% from 'layout/_consts.jinja' import storage_url, old_storage_url %}
+{% from 'layout/_macros.jinja' import link, pagination, tw_form_control %}
+
+{% macro pokemon_fields(i, label) %}
+    <div class="gap-2 grid grid-cols-2{{ ' pt-4' if i != 1 }}">
+        <div class="col-span-2 gap-2 inline-flex items-center">
+            <b>枠{{ label }}</b>
+            {% for fileld in form.operator_fields(i) %}
+                {{ fileld.render() }}
+            {% endfor %}
+            <button data-iroha-arrow="pokemon-detail-arrow-{{ i }}"
+                data-iroha-target="pokemon-detail{{ i }}"
+                class="blue iroha-trigger"
+                type="button">
+                <span data-iroha-rotate="{{ 'true' if form.is_pokemon_detail_open(i) }}"
+                    id="pokemon-detail-arrow-{{ i }}">▽</span>
+                <span>個体詳細</span>
+            </button>
+        </div>
+        {% for field in form.default_fields(i) %}
+            {{ field.render() }}
+        {% endfor %}
+    </div>
+    <div class="iroha-panel"
+        id="pokemon-detail{{ i }}"
+        data-iroha-open="{{ 'true' if form.is_pokemon_detail_open(i) }}">
+        <div class="pt-4">
+            <hr>
+            <div class="gap-2 grid grid-cols-2 pt-4">
+                {% for field in form.pokemon_detail_fields(i) %}
+                    {{ field.render() }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% extends 'layout/base.jinja' %}
+{% block js %}
+    <script src="{{ static_file('js/search.js') }}" type="module"></script>
+{% endblock %}
+
+{% block content %}
+    <article>
+        <div>
+            <h1>記事検索</h1>
+        </div>
+        <hr>
+        <form method="GET" autocomplete="off">
+            {% for i in range(1, 7)%}
+                <div class="iroha-panel"
+                    data-iroha-open="{{ 'true' if i <= form.pokemon_slots.value|int }}"
+                    id="pokemon-status{{ i }}">
+                    <div>
+                        {{ pokemon_fields(i, i) }}
+                        <div class="iroha-panel"
+                            data-iroha-open="{{ 'true' if (form|attr('or' ~ i)).value }}"
+                            id="pokemon-status{{ i + 6 }}">
+                            {{ pokemon_fields(i + 6, i ~ '(OR)') }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="gap-2 inline-flex items-center pt-4">
+                <button class="iroha-trigger" id="pokemon-add" type="button">
+                    <span>+</span>
+                    <span>枠追加</span>    
+                </button>
+                <button class="iroha-trigger red" id="pokemon-sub" type="button">
+                    <span>-</span>
+                    <span>枠削除</span>    
+                </button>
+                <button data-iroha-arrow="detail-arrow" data-iroha-target="detail" class="iroha-trigger" type="button">
+                    <span data-iroha-rotate="{{ 'true' if form.is_detail_open() }}" id="detail-arrow">▽</span>
+                    <span>詳細条件</span>
+                </button>
+            </div>
+            <div class="iroha-panel"
+                data-iroha-open="{{ 'true' if form.is_detail_open() }}"
+                id="detail">
+                <div class="gap-2 grid grid-cols-2 pt-4">
+                    {% for field in form.detail_fields() %}
+                        {{ field.render() }}
+                    {% endfor %}
+                </div>
+            </div>
+            {% for field in form.hidden_fields() %}
+                {{ field.render() }}
+            {% endfor %}
+            <div class="pt-4">
+                <button type="submit">検索</button>
+            </div>
+        </form>
+    </article>
+
+    <div class="flex flex-col gap-4" id="search-result">
+        <div>{{ start_item }} - {{ end_item }}件 / 全{{ total_count }}件</div>
+        {% if not results %}
+            <article>
+                <div>
+                    該当する結果が見つかりませんでした。<br>
+                    ・検索条件を見直してください。<br>
+                    ・ご不明点やご要望、不具合のご報告などは{{ link(google_form_url, 'お問い合わせフォーム', True) }}から受け付けております。
+                </div>
+            </article>
+        {% else %}
+            {{ pagination(paginations, params, total_pages) }}
+            {% for article in results %}
+                <article>
+                    <div class="flex flex-col relative">
+                        <button class="yellow" data-article-id="{{ article.article_id }}">
+                            {{ '後で読まない' if article.article_id in params.read_later_ids else '後で読む' }}
+                        </button>
+                        <b>{{ article.rank }}位</b>
+                        <span>{{ article.trainer_name }}</span>
+                        <div>
+                            <a href="{{ article.url }}">{{ article.title }}</a>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-4 images">
+                            {% for i in range(0, 6) %}
+                                <div class="relative">
+                                    <img alt="{{ article.pokemon_names[i] }}" height="40"
+                                        src="{{ storage_url }}/pokemon/{{ article.pokemon_names[i] }}.png">
+                                    {% if article.item_names[i] %}
+                                        <img alt="{{ article.item_names[i] }}"
+                                            class="absolute outline-white -bottom-1 -right-2" height="24"
+                                            src="{{ storage_url }}/item/{{ article.item_names[i] }}.png">
+                                    {% endif %}
+                                    {% if article.tera_type_names[i] %}
+                                        <img alt="{{ article.tera_type_names[i] }}"
+                                            class="absolute outline-white -right-2 -top-1" height="24"
+                                            src="{{ storage_url }}/tera-type/{{ article.tera_type_names[i] }}.png">
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if params['keyword'] %}
+                            <div class="flex flex-wrap pt-4 text-gray-600">
+                                {% set prefix, suffix = article.snippet %}
+                                <span>{{ prefix }}</span>
+                                <b>{{ params['keyword'] }}</b>
+                                <span>{{ suffix }}</span>
+                            </div>
+                        {% endif %}
+                        {% if article.tag_names %}
+                            <div class="flex flex-wrap gap-2 pt-4">
+                                {% for tag in article.tag_names %}
+                                    <span class="bg-violet-100 text-violet-800">#{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+            {{ pagination(paginations, params, total_pages) }}
+        {% endif %}
+    </div>
+{% endblock %}

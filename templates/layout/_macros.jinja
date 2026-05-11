@@ -1,0 +1,44 @@
+{% macro card(title, icon) %}
+    <div class="bg-white border border-gray-300 rounded-lg">
+        <h1 class="flex items-center gap-2 p-5">
+            <span class="material-symbols-outlined">{{ icon }}</span>
+            <span>{{ title }}</span>
+        </h1>
+        <div class="border-t border-gray-200 p-5">
+            {{ caller() }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro clause(title) %}
+    <div class="flex flex-col gap-2">
+        <h2>{{ title }}</h2>
+        <ul class="list-disc list-inside">
+            {{ caller() }}
+        </ul>
+    </div>
+{% endmacro %}
+
+{% macro link(url, text, external=False) %}
+    <a href="{{ url }}" class="text-blue-500 underline" target="_blank" rel="noopener noreferrer">{{ text }}</a>
+{% endmacro %}
+
+{% macro pagination(paginations, params, total_pages) %}
+    <div class="pagination">
+        <button data-page="{{ params.page|int - 1 }}"{{ ' disabled' if params.page|int == 1 }}><</button>
+        {% for pagination in paginations %}
+            <button class="pagination tw-pagination"{{ ' disabled' if pagination == params.page else ' data-page="' ~ pagination ~ '"' }}>{{ pagination }}</button>
+        {% endfor %}
+        <button data-page="{{ params.page|int + 1 }}"{{ ' disabled' if params.page|int == total_pages|int }}>></button>
+    </div>
+{% endmacro %}
+
+{% macro tw_form_control(label='', type='') %}
+    <div class="relative flex bg-white w-full">
+        <span class="absolute top-[-10.2px] left-3 bg-inherit px-1 text-sm font-medium">{{ label }}</span>
+        {{ caller() }}
+        {% if type == 'select' %}
+            <span class="material-symbols-outlined absolute h-fit inset-y-0 my-auto right-3 font-bold pointer-events-none bg-inherit">keyboard_arrow_down</span>
+        {% endif %}
+    </div>
+{% endmacro %}
