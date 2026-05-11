@@ -40,6 +40,11 @@ def get_all_trends(conn):
     )
 
 
+def get_name_id_dict(conn, table):
+    stmt = select(table.c.name, table.c.id).order_by(asc(table.c.id))
+    return {row.name: row.id for row in conn.execute(stmt)}
+
+
 def get_read_later_ids(request):
     return {
         int(id)

@@ -1,8 +1,10 @@
-from flask import abort, Flask, jsonify, make_response, render_template, request
+from flask import abort, Flask, jsonify, make_response, render_template, request, redirect, url_for
+from sqlalchemy import insert
 from database.connection import engine
+from database.schema import abilities, article_pokemons, article_pokemon_moves, article_tags, articles, items, moves, natures, pokemons, tags, types
 from utils.consts import ALL_SORTS, ALL_RULES, SECRET_TOKEN
 from utils.forms import SearchForm
-from utils.helpers import get_all_seasons, get_all_trends, get_read_later_ids, get_usage_ranking, static_file
+from utils.helpers import get_all_seasons, get_all_trends, get_name_id_dict, get_read_later_ids, get_usage_ranking, static_file
 from utils.page.search import get_all_regulations, get_all_tags, search_articles
 
 
@@ -94,8 +96,8 @@ def toggle_read_later():
     return response
 
 
-@app.route('/insert', methods=['GET', 'POST'])
-def insert():    
+@app.route('/insert_article', methods=['GET', 'POST'])
+def insert_article():
     if request.args.get('token') != SECRET_TOKEN:
         abort(404)
 
@@ -117,7 +119,7 @@ def insert():
                     url=form.get('url'),
                     title=form.get('title'),
                     text=form.get('text') or None,
-                    trainer_name=form.get('trainer-name'),
+                    trainer_name=form.get('trainer_name'),
                     rule=form.get('rule') or None,
                     season=form.get('season') or None,
                     regulation=form.get('regulation') or None,
@@ -135,21 +137,17 @@ def insert():
                 'tera_type_id': type_name_id_dict.get(form.get(f'tera-type{i}')),
                 'ability_id': ability_name_id_dict.get(form.get(f'ability{i}')),
                 'nature_id': nature_name_id_dict.get(form.get(f'nature{i}')),
-                **{f'ev_{s}': int(form.get(f'ev-{s}{i}') or 0) for s in 'habcds'},
-                **{f'st_{s}': int(form.get(f'st-{s}{i}') or 0) for s in 'habcds'}
+                **{f'ev_{s}': int(form.get(f'ev-{s}{i}') or 0) for s in 'habcds'}
             } for i in range(1, 7)]).scalars().all()
             conn.execute(insert(article_pokemon_moves), [{
                 'article_pokemon_id': article_pokemon_id,
                 'move_id': move_name_id_dict.get(form.get(f'move{i}{j}'))
             } for i, article_pokemon_id in enumerate(article_pokemon_ids, 1)for j in range(1, 5)])
-
-        flash('追加しました。', 'success')
-
-        return redirect(url_for('articles_insert'))
+            return redirect(url_for('insert_article'))
 
     with engine.connect() as conn:
         return render_template(
-            'page/insert.jinja',
+            'page/insert_article.jinja',
             title='記事追加',
             all_rules=('シングル', 'ダブル'),
             all_seasons=get_all_seasons(conn),
